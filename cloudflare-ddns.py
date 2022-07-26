@@ -14,12 +14,13 @@ def main():
     except Exception as e:
         print(e)
     else:
-        update_record(
+        success = update_record(
             api_key=api_key,
             zone_id=zone_id,
             record_id=record_id,
             ip=my_ip
         )
+        print (my_ip + (" Success" if success else " Failed"))
 
 def get_env(key):
     var = os.environ.get(key)
@@ -56,6 +57,7 @@ def update_record(api_key,zone_id,record_id, ip):
     }
 
     response = requests.request("PATCH", url, headers=headers, data=payload)
+    return response.json().get("success") == True
 
 if __name__ == '__main__':
     main()
